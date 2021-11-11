@@ -1,0 +1,42 @@
+:root {
+    --red: rgb(115, 0, 0);
+    --blue: rgb(0, 0, 60);
+    --white: rgb(255, 255, 255);
+}
+body {
+    background-color: var(--blue);
+    color: var(--white);
+    text-align: center;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+h1 {
+    font-size: 80px;
+    color: var(--red);
+    margin: 0;
+}
+h2 {
+    font-size: 40px;
+    margin: 0;
+}
+h3 {
+    font-size: 24px;
+    color:var(--red);
+    margin: 15px;
+}
+.quiz {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+#start,
+#leaderboard {
+    width: 25%;
+    height: 45px;   
+    font-size: 30px;
+    margin: 10px;
+    background-color: var(--red);
+    color: var(--blue);
+    border-color: var(--white);
+}

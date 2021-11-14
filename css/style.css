@@ -74,15 +74,16 @@ h3 {
     padding: 15px;
     font-weight: bold;
 }
-#question {
-    font-size:50px;
+#questionEl {
+    font-size:70px;
+    font-weight: bold;
     color: var(--red);
 }
 .answers {
-    font-size: 30px;   
+    font-size: 40px;   
     list-style-type: none;
 }
-#answerA, #answerB, #answerC, #answerD {
-    margin: 25px;
+#answerEl1, #answerEl2, #answerEl3, #answerEl4 {
+    margin: 50px;
     padding: 10px;
 }

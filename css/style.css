@@ -2,41 +2,66 @@
     --red: rgb(115, 0, 0);
     --blue: rgb(0, 0, 60);
     --white: rgb(255, 255, 255);
+    --headerFont: font-family: 'Play', sans-serif;
+    --bodyFont: font-family: 'Architects Daughter', cursive;
 }
 body {
     background-color: var(--blue);
     color: var(--white);
+    font-family: var(--bodyFont);
+}
+h2 {
+    font-family: var(--headerFont);
+}
+#timer {
+    display: flex;
+    position: absolute;
+    font-size: 40px;
+    color: var(--white);
+    left: 35%;
+    bottom: 100px;
+}
+header {
+    color: var(--white);
     text-align: center;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+    font-family: var(--headerFont);
 }
 h1 {
     font-size: 80px;
     color: var(--red);
-    margin: 0;
+    margin: 25;
 }
 h2 {
     font-size: 40px;
-    margin: 0;
+    margin: 25px;
 }
 h3 {
-    font-size: 24px;
+    font-size: 30px;
     color:var(--red);
-    margin: 15px;
+    margin: 25px;
 }
-.quiz {
+.buttons {
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
-#start,
-#leaderboard {
-    width: 25%;
-    height: 45px;   
-    font-size: 30px;
-    margin: 10px;
+#startButton,
+#leaderboardButton {
+    width: 45%;
+    height: 200px;
+    font-size: 50px;;
+    margin: 100px 10px;
     background-color: var(--red);
     color: var(--blue);
-    border-color: var(--white);
+    border: 5px solid var(--white);
+    border-radius: 15px;
+    cursor: pointer;
+    padding: 15px;
+    font-weight: bold;
+}
+.answers {
+    font-size: 40px;
+    margin: 10px;
 }

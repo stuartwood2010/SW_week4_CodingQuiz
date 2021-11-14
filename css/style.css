@@ -76,7 +76,7 @@ h3 {
 }
 #question {
     font-size:50px;
-
+    color: var(--red);
 }
 .answers {
     font-size: 30px;   

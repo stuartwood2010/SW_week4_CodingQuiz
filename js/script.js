@@ -3,7 +3,7 @@ const myQuestions = [
         question: "What is javascript used for?",
         
         answers: [
-        "JavaScript gives structure to a web page", "JavaScript gives style to a web page.",
+        "JavaScript gives structure to a web page.", "JavaScript gives style to a web page.",
         "JavaScript gives interactive elements to a web page.", 
         "Javascript is the name that web developers give to coffee."],
         
@@ -29,11 +29,10 @@ const leaderBtnEl = document.querySelector("#leaderboardButton");
 const questionEl = document.querySelector("#question");
 let timerEl = document.querySelector("#timer");
 let answersEl = document.querySelector(".answers");
-// let answersEl = document.createElement("ol");
-// let answerA = document.createElement("li");
-// let answerB = document.createElement("li");
-// let answerC = document.createElement("li");
-// let answerD = document.createElement("li");
+let answerA = document.querySelector('#answerA');
+let answerB = document.querySelector('#answerB');
+let answerC = document.querySelector('#answerC');
+let answerD = document.querySelector('#answerD');
 let possibleAnswerA = document.createTextNode(myQuestions[0].answers[0]);
 let possibleAnswerB = document.createTextNode(myQuestions[0].answers[1]);
 let possibleAnswerC = document.createTextNode(myQuestions[0].answers[2]);
@@ -52,21 +51,16 @@ function startQuiz() {
     let quizContent = document.createTextNode(myQuestions[0].question);
     questionEl.appendChild(quizContent);    
 /*along with the multiple choice answers*/
-    // answersEl.appendChild(answerA);
-    answerA.textContent(possibleAnswerA);
-    // answersEl.appendChild(answerB);
-    answerB.textContent(possibleAnswerB)
-    // answersEl.appendChild(answerC);
-    answerC.textContent(possibleAnswerC)
-    // answersEl.appendChild(answerD);
-    answerD.textContent(possibleAnswerD)
+    answerA.appendChild(possibleAnswerA);
+    answerB.appendChild(possibleAnswerB);
+    answerC.appendChild(possibleAnswerC);
+    answerD.appendChild(possibleAnswerD);
     console.log(answersEl);
     console.log(answerA);
-    questionEl.appendChild(answersEl);
 }
 /*The timer will countdown from 30, with every wrong answer the user gets 10 seconds deducted*/
 /*Every right answer the timer will add 10 seconds; the time left on the clock when the quiz ends is the score*/
-let secondsLeft = 5;
+let secondsLeft = 25;
 function countdown(){
     let timerInterval = setInterval(function() {
         if(secondsLeft > 1) {
@@ -87,7 +81,6 @@ function leaderboard() {
     $('#timer').hide();
     $('#question').hide();
     $('.answers').hide();
-
 }
 /*Start the quiz when the user clicks on the startButton*/
 startBtnEl.addEventListener("click", startQuiz);

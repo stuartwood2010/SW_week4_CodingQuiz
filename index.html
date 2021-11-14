@@ -4,43 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coding Quiz</title>
-  <link rel="stylesheet" href="./css/style.css">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="Description" content="Enter your description here" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Play:wght@700&display=swap" rel="stylesheet">
-  
+  <link rel="stylesheet" href="./css/style.css">
+  <title>Coding Quiz</title>  
 </head>
 
 <body>
     <div class="container">
-        <div id="game">
-            <h2 id="question"></h2>
-                <ol class="answers">
-                    <li id="answerA">
-                    <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    
-                    </li>
-                    <li id="answerB">
-                    <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    
-                    </li>
-                    <li id="answerC">
-                    <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    
-                    </li>
-                    <li id="answerD">
-                    <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    
-                    </li>
-                </ol>
-        </div>
-            <div id="timer"></div>
-            <div id="welcome">
-                <header>
-                    <h1>Welcome to my coding Quiz!!!</h1>
-                    <h2>Finish the quiz before time runs out.</h2>
-                    <h3>If you answer a question wrong, you lose time.</h3>
+        <div id="welcome">
+            <header>
+                <h1>Welcome to my coding Quiz!!!</h1>
+                <h2>Finish the quiz before time runs out.</h2>
+                <h3>If you answer a question wrong, you lose time.</h3>
             </header>
             
             <content class="buttons"> 
@@ -48,8 +28,28 @@
                 <button id="leaderboardButton" type="button">View the Leaderboard</button>
             </content>
         </div>
-        <div class="quiz">
-            
+        <div id="timer"></div>
+    
+        <div id="game">
+            <h2 id="question"></h2>
+                <ul class="answers">
+                    <li id="answerA">
+                    <input class="form-check-input" type="checkbox" value="checked">
+                    
+                    </li>
+                    <li id="answerB">
+                    <input class="form-check-input" type="checkbox" value="checked">
+                    
+                    </li>
+                    <li id="answerC">
+                    <input class="form-check-input" type="checkbox" value="checked">
+                    
+                    </li>
+                    <li id="answerD">
+                    <input class="form-check-input" type="checkbox" value="checked">
+                    
+                    </li>
+                </ol>
         </div>
     </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

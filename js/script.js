@@ -1,86 +1,79 @@
 const myQuestions = [
-    {
-        question: "What is javascript used for?",
-        
+    question1 = { 
+        question: "What is Javascript used for?", 
         answers: [
-        "JavaScript gives structure to a web page.", "JavaScript gives style to a web page.",
-        "JavaScript gives interactive elements to a web page.", 
-        "Javascript is the name that web developers give to coffee."],
-        
+                "JavaScript gives structure to a web page.", "JavaScript gives style to a web page.",
+                "JavaScript gives interactive elements to a web page.", 
+                "Javascript is the name that web developers give to coffee."
+                ],
         correctAnswer: "JavaScript gives interactive elements to a web page."
     },
-    {
-        question: "Which of the following is NOT a Javascript data type?",
-        
-        answers: ["Boolean", "Object", "String", "Boomerang"],
-        
+    
+    question2 = {
+        question: "Which of the following is NOT a Javascript data type?",        
+        answers: ["Boolean", "Object", "String", "Boomerang"],        
         correctAnswer: "Boomerang",
     },
-    {
-        question: "What is the code used for strict equality?",
-        
-        answers: ["===", "!==", "="],
-        
+    
+    question3 = {
+        question: "What is the code used for strict equality?",        
+        answers: ["===", "!==", "="],        
         correctAnswer: "==="
     }
 ];
-const startBtnEl = document.querySelector("#startButton");
-const leaderBtnEl = document.querySelector("#leaderboardButton");
-const questionEl = document.querySelector("#question");
-let timerEl = document.querySelector("#timer");
-let answersEl = document.querySelector(".answers");
-let answerA = document.querySelector('#answerA');
-let answerB = document.querySelector('#answerB');
-let answerC = document.querySelector('#answerC');
-let answerD = document.querySelector('#answerD');
-let possibleAnswerA = document.createTextNode(myQuestions[0].answers[0]);
-let possibleAnswerB = document.createTextNode(myQuestions[0].answers[1]);
-let possibleAnswerC = document.createTextNode(myQuestions[0].answers[2]);
-let possibleAnswerD = document.createTextNode(myQuestions[0].answers[3]);
+const startBtnEl = $('#startButton');
+const leaderBtnEl = $('#leaderboardButton');
+const gameEl = $('#game');
+const timerEl = $("#timer");
 /*We are going to hide the timer until the quiz is started*/
-$('#timer').hide();
-$('.answers').hide();
+timerEl.hide();
 /*The timer will show and the welcome message will be hidden when the quiz starts*/
 /*And the first question will appear on the screen*/
 function startQuiz() { 
     countdown()
-    $('#timer').show();
+    timerEl.show();
     $('#welcome').hide();
-    $('.answers').show();
-    console.log("Quiz has been started");
-    let quizContent = document.createTextNode(myQuestions[0].question);
-    questionEl.appendChild(quizContent);    
-/*along with the multiple choice answers*/
-    answerA.appendChild(possibleAnswerA);
-    answerB.appendChild(possibleAnswerB);
-    answerC.appendChild(possibleAnswerC);
-    answerD.appendChild(possibleAnswerD);
-    console.log(answersEl);
-    console.log(answerA);
+    let questionEl = $('<h2>');
+    currentQuestion = myQuestions[0];
+    questionEl.text(currentQuestion.question);
+    gameEl.append(questionEl);
+    let answersEl = $('ul');
+    let answerEl = $('li');
+    for (i=0; i < currentQuestion.answerslength; i++) {
+        answerEl.text(currentQuestion.answers[0])
+        // answersEl.append(answerEl);
+        // gameEl.append(answersEl);
+        console.log(answerEl);
+    }
 }
 /*The timer will countdown from 30, with every wrong answer the user gets 10 seconds deducted*/
 /*Every right answer the timer will add 10 seconds; the time left on the clock when the quiz ends is the score*/
-let secondsLeft = 25;
+let secondsLeft = 2;
 function countdown(){
     let timerInterval = setInterval(function() {
         if(secondsLeft > 1) {
-            timerEl.textContent = secondsLeft + ' seconds remaining';
+            timerEl.text(secondsLeft + ' seconds remaining');
             secondsLeft--;
         } else if (secondsLeft === 1) {
-            timerEl.textContent = secondsLeft + ' second remaining';
+            timerEl.text(secondsLeft + ' second remaining');
             secondsLeft--;
         } else {
-            timerEl.textContent = '';
+            timerEl.text('');
             clearInterval(timerInterval);
             leaderboard();
+            // nextQuestion();
          }    
     }, 1000);
 }
+// function nextQuestion() {
+//     for (i=0; i < myQuestions.length; i++) {
+//         console.log("Question " + myQuestions[i].question);
+//     }
+// }
 
 function leaderboard() {
-    $('#timer').hide();
-    $('#question').hide();
-    $('.answers').hide();
+    timerEl.hide();
+    gameEl.hide();    
 }
 /*Start the quiz when the user clicks on the startButton*/
-startBtnEl.addEventListener("click", startQuiz);
+startBtnEl.on("click", startQuiz);

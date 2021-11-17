@@ -3,8 +3,8 @@
     --red: rgb(115, 0, 0);
     --blue: rgb(0, 0, 60);
     --white: rgb(255, 255, 255);
-    --headerFont: font-family: 'Play', sans-serif;
-    --bodyFont: font-family: 'Architects Daughter', cursive;
+    --headerFont: 'Play', sans-serif;
+    --bodyFont: 'Architects Daughter', cursive;
 }
 body {
     box-sizing: border-box;
@@ -21,12 +21,11 @@ body {
     margin: 0 auto;
 }
 #timer {
-    display: flex;
     position: absolute;
+    bottom: 15px;
+    left: 38%;
     font-size: 40px;
     color: var(--white);
-    left: 38%;    
-    bottom: 100px;
 }
 header {
     color: var(--white);
@@ -34,26 +33,31 @@ header {
     font-family: var(--headerFont);
 }
 h1 {
-    font-size: 80px;
+    font-size: 70px;
+    font-weight: bold;
     color: var(--red);
-    margin-top: 50px;
+    margin-top: 25px;
 }
 h2 {
     font-size: 40px;
-    margin-top: 50px;
+    margin-top: 25px;
 }
 h3 {
     font-size: 30px;
     color:var(--red);
-    margin-top: 50px;
+    margin-top: 25px;
 }
-.buttons {
+.buttonsMain{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
+}
+.buttonsMC {
+    display: flex;
+    justify-content: center;
+    align-items: space-around;
 }
 #startButton:hover,
 #leaderboardButton:hover {
@@ -78,12 +82,51 @@ h3 {
     font-size:70px;
     font-weight: bold;
     color: var(--red);
+    margin: 25px;
+    text-align: center;
 }
 .answers {
-    font-size: 40px;   
+    font-size: 36px;   
+    list-style-type: unset;
+    color: var(--white);
     list-style-type: none;
+    margin-left: 100px;
 }
 #answerEl1, #answerEl2, #answerEl3, #answerEl4 {
     margin: 50px;
     padding: 10px;
+}
+#buttonA, #buttonB, #buttonC, #buttonD {
+    width: 20%;
+    height: 100px;
+    font-size: 30px;;
+    margin: 50px 10px;
+    background-color: var(--red);
+    color: var(--blue);
+    border: 5px solid var(--white);
+    border-radius: 15px;
+    cursor: pointer;
+    padding: 15px;
+    font-weight: bold;
+}
+#buttonA:hover, #buttonB:hover, #buttonC:hover, #buttonD:hover {
+    border-color: black;
+    color: var(--white);
+}
+@media screen and (max-width: 576px) {
+    #startButton, #leaderboardButton {
+        font-size: 28px;
+    } 
+    h1, h2, h3, #questionEl{
+        font-size: 30px;
+    }
+    #timer {
+        top: 0px;
+        font-size: 22px;
+        left: 33%;
+    }
+    .answers {
+        margin-left: 0px;
+        font-size: 20px;
+    }
 }

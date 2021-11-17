@@ -9,13 +9,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Play:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
   <title>Coding Quiz</title>  
 </head>
 
 <body>
     <div id="timer"></div>
-    <div class="container">
         <div id="welcome">
             <header>
                 <h1>Welcome to my coding Quiz!!!</h1>
@@ -23,19 +24,19 @@
                 <h3>If you answer a question wrong, you lose time.</h3>
             </header>
             
-            <content class="buttons"> 
-                <button id="startButton" type="button" class="">Start the Quiz</button>
+            <div class="buttonsMain"> 
+                <button id="startButton" type="button">Start</button>
                 <button id="leaderboardButton" type="button">Leaderboard</button>
-            </content>
+            </div>
         </div>
     
-        <div id="game">
-            
-            
-                    
-                
-        </div>
-    </div>
+        <div id="game"></div>
+            <div class="buttonsMC">
+                <button id="buttonA" type="button">A</button>
+                <button id="buttonB" type="button">B</button>
+                <button id="buttonC" type="button">C</button>
+                <button id="buttonD" type="button">D</button>                
+            </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="./js/script.js"></script>
 </body>

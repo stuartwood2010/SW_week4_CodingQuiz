@@ -6,102 +6,86 @@ let myQuestions = [
                 "C: JavaScript gives interactive elements to a web page.", 
                 "D: Javascript is what web developers call coffee."
                 ],
+        correctAnswer: "C: JavaScript gives interactive elements to a web page."
     },    
     {   question: "Which of the following is NOT a Javascript data type?",        
         answers: ["A: Boolean", "B: Object", "C: String", "D: Boomerang"],
+        correctAnswer: "D: Boomerang"
     },    
     {   question: "What is the code used for strict equality?",        
         answers: ["A: ===", "B: !==", "C: =", "D: <=>"],
+        correctAnswer: "A: ==="
     }
 ];
-const welcomeEl = $('#welcome');
-const startBtnEl = $('#startButton');
-const leaderBtnEl = $('#leaderboardButton');
-const btnMCEl = $('.butonsMC');
-const AbtnMCEl = $('#buttonA');
-const BbtnMCEl = $('#buttonB');
-const CbtnMCEl = $('#buttonC');
-const DbtnMCEl = $('#buttonD');
-let gameEl = $('#game');
-let timerEl = $("#timer");
-/*We are going to hide the timer and Multiple Coice buttons until the quiz is started*/
-timerEl.hide();
-AbtnMCEl.hide();
-BbtnMCEl.hide();
-CbtnMCEl.hide();
-DbtnMCEl.hide();
-let questionEl = $('<h2>');
-let answersEl = $('<ul>');
-let answerEl1 = $('<li>');
-let answerEl2 = $('<li>');
-let answerEl3 = $('<li>');
-let answerEl4 = $('<li>');
+const welcomeEl = document.querySelector('#welcome');
+const startBtnEl = document.querySelector('#startButton');
+const leaderBtnEl = document.querySelector('#leaderboardButton');
+let gameEl = document.querySelector('#game');
+let timerEl = document.querySelector("#timer");
+let questionEl = document.createElement('h2');
+questionEl.setAttribute('id', 'questionEl');
+userChoice = "";
 let i = 0;
-let currentQuestion=myQuestions[i]
-answersEl.attr('class', 'answers');
-questionEl.attr('id', 'questionEl');
-/*The timer will show and the welcome message will be hidden when the quiz starts*/
-/*And the first question will appear on the screen*/
+let currentQuestion=myQuestions[i];
 function startQuiz() { 
     countdown()
-    $('#welcome').hide();
-    AbtnMCEl.show();
-    BbtnMCEl.show();
-    CbtnMCEl.show();
-    DbtnMCEl.show();
+    welcomeEl.style.display = 'none';
     nextQuestion();
-}      
-function nextQuestion(){
-    console.log('I am happening');
+}
+function nextQuestion() {
+    gameEl.innerHTML = "";
     let currentQuestion=myQuestions[i];
     if (i > myQuestions.length -1) {
         leaderboard();
         return
     }   
-    questionEl.text(currentQuestion.question);
+    questionEl.textContent = (currentQuestion.question);
     gameEl.append(questionEl);
-    answerEl1.text(currentQuestion.answers[0]);
-    answerEl2.text(currentQuestion.answers[1]);
-    answerEl3.text(currentQuestion.answers[2]);
-    answerEl4.text(currentQuestion.answers[3]);
-    answersEl.append(answerEl1);
-    answersEl.append(answerEl2);
-    answersEl.append(answerEl3);
-    answersEl.append(answerEl4);
-    gameEl.append(answersEl);
+    for (let j=0; j<currentQuestion.answers.length; j++) {
+        let MCbutton = document.createElement('button');
+        MCbutton.setAttribute('value', currentQuestion.answers[j]);
+        MCbutton.textContent = (currentQuestion.answers[j]);
+        gameEl.append(MCbutton);
+        MCbutton.setAttribute("style", "display: flex; flex-direction: column; justify-content: center; align-items: center;");
+        MCbutton.setAttribute("style", "width: 80%; height: 70px; font-size: 26px; margin: 20px 120px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
+    }
     i++; 
-}
+};
 /*The timer will countdown from 60*/
 let secondsLeft = 60;
 function countdown(){
-    timerEl.show();
+    timerEl.style.display ='inline';
     let timerInterval = setInterval(function() {
         if(secondsLeft > 1) {
-            timerEl.text(secondsLeft + ' seconds remaining');
+            timerEl.textContent = (secondsLeft + ' seconds remaining');
             secondsLeft--;
         } else if (secondsLeft === 1) {
-            timerEl.text(secondsLeft + ' second remaining');
+            timerEl.textContent = (secondsLeft + ' second remaining');
             secondsLeft--;
         } else {
-            timerEl.text('');
+            timerEl.textContent = ('');
             clearInterval(timerInterval);
             leaderboard();
         }    
     }, 1000);
 }
 function leaderboard() {
-    timerEl.hide();
-    welcomeEl.hide();
-    gameEl.hide();  
-    AbtnMCEl.hide();
-    BbtnMCEl.hide();
-    CbtnMCEl.hide();
-    DbtnMCEl.hide();  
+    timerEl.style.display ='none';
+    welcomeEl.style.display ='none';
+    gameEl.style.display ='none';
 }
 /*Start the quiz when the user clicks on the startButton*/
-startBtnEl.on("click", startQuiz);
-leaderBtnEl.on("click", leaderboard);
-AbtnMCEl.on("click", nextQuestion);
-BbtnMCEl.on("click", nextQuestion);
-CbtnMCEl.on("click", nextQuestion);
-DbtnMCEl.on("click", nextQuestion);
+startBtnEl.addEventListener("click", startQuiz);
+leaderBtnEl.addEventListener("click", leaderboard);
+gameEl.addEventListener("click", nextQuestion);
+
+gameEl.addEventListener("click", function choice(event) {
+userChoice = (event.target.value);
+console.log(userChoice);
+for (let i = 0; i < myQuestions.length; i++) {
+    if (userChoice == myQuestions[i].correctAnswer) {
+    console.log("Correct");
+} else {
+    console.log("Incorrect");
+}
+}});

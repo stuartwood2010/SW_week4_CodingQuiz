@@ -24,14 +24,17 @@ let gameEl = document.querySelector('#game');
 let timerEl = document.querySelector("#timer");
 let questionEl = document.createElement('h2');
 questionEl.setAttribute('id', 'questionEl');
-userChoice = "";
+userChoice = [];
 let i = 0;
+let k = -1;
 let currentQuestion=myQuestions[i];
+/**/
 function startQuiz() { 
     countdown()
     welcomeEl.style.display = 'none';
     nextQuestion();
 }
+/**/
 function nextQuestion() {
     gameEl.innerHTML = "";
     let currentQuestion=myQuestions[i];
@@ -47,9 +50,9 @@ function nextQuestion() {
         MCbutton.textContent = (currentQuestion.answers[j]);
         gameEl.append(MCbutton);
         MCbutton.setAttribute("style", "display: flex; flex-direction: column; justify-content: center; align-items: center;");
-        MCbutton.setAttribute("style", "width: 80%; height: 70px; font-size: 26px; margin: 20px 120px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
+        MCbutton.setAttribute("style", "width: 80%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
     }
-    i++; 
+    i++;
 };
 /*The timer will countdown from 60*/
 let secondsLeft = 60;
@@ -69,23 +72,40 @@ function countdown(){
         }    
     }, 1000);
 }
+/**/
 function leaderboard() {
     timerEl.style.display ='none';
     welcomeEl.style.display ='none';
     gameEl.style.display ='none';
 }
+/**/
+function score(click) {
+    k = k + click;
+    if (k > myQuestions.length) {
+        leaderboard();
+    }
+} 
 /*Start the quiz when the user clicks on the startButton*/
 startBtnEl.addEventListener("click", startQuiz);
+/**/
 leaderBtnEl.addEventListener("click", leaderboard);
-gameEl.addEventListener("click", nextQuestion);
-
+/**/
+gameEl.addEventListener("click", function(event) {
+    let element = event.target
+    if (element.matches('button')) {
+        nextQuestion();
+    }
+});
+/**/
 gameEl.addEventListener("click", function choice(event) {
-userChoice = (event.target.value);
-console.log(userChoice);
-for (let i = 0; i < myQuestions.length; i++) {
-    if (userChoice == myQuestions[i].correctAnswer) {
-    console.log("Correct");
-} else {
-    console.log("Incorrect");
+    let element = event.target
+    if (element.matches('button')) {
+        userChoice.push(event.target.value);
+    }
+    score(1);
+    if (userChoice[k] === myQuestions[k].correctAnswer) {
+        console.log("Correct");
+    } else {
+        console.log("Incorrect");
 }
-}});
+})

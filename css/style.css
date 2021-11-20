@@ -65,6 +65,12 @@ h3 {
     padding: 15px;
     font-weight: bold;
 }
+#game {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 #questionEl {
     font-size:40px;
     font-weight: bold;

@@ -70,7 +70,7 @@ h3 {
     padding: 15px;
     font-weight: bold;
 }
-#game, #end {
+#game, #end, #leaderboard {
     display: flex;
     flex-direction: column;
     justify-content: center;

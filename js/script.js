@@ -1,3 +1,5 @@
+/*My array of questions, to be used in the quiz. Each object contains a question element,
+an array of possible answers, and the correct answer element*/
 let myQuestions = [
     {   question: "What is Javascript used for?", 
         answers: [
@@ -17,54 +19,100 @@ let myQuestions = [
         correctAnswer: "A: ==="
     }
 ];
+/*Creating variables tied to the html sections*/
 const welcomeEl = document.querySelector('#welcome');
 const startBtnEl = document.querySelector('#startButton');
 const leaderBtnEl = document.querySelector('#leaderboardButton');
-let gameEl = document.querySelector('#game');
-let endEl = document.querySelector('#end');
 let timerEl = document.querySelector("#timer");
+let gameEl = document.querySelector('#game');
+let leaderboardEl = document.querySelector('#leaderboard');
+let endEl = document.querySelector('#end');
+
+/*Dynamically create an h2 element and name it questionEl*/
 let questionEl = document.createElement('h2');
+
+/*Give questionEl an id of questionEl*/
 questionEl.setAttribute('id', 'questionEl');
+
+/*set the variables to be used later*/
 let i = 0;
 let k = -1;
+let secondsLeft = 45;
 let currentQuestion = myQuestions[i];
+
+/*create an array to hold the user selected answers*/
 let userChoice = [];
+
+/*Create an array to hold the highscores, which will be saved to local storage*/
 let highScores = [];
+
 /*Start the countdown, hide the welcome screen, and display the first question and possible answers.*/
 function startQuiz() {
-    countdown()
+    countdown();
     welcomeEl.style.display = 'none';
     endEl.style.display = 'none';
     gameEl.style.display = 'flex';
     nextQuestion();
 }
+
 /*Reset the gameEl html to an empty string to hide the recent question and possible answers,
- display the next question and possible answers, continue until all questions have been answered. */
+display the next question and possible answers, continue until all questions have been answered. */
 function nextQuestion() {
     gameEl.innerHTML = "";
     let currentQuestion = myQuestions[i];
     if (i > myQuestions.length -1) {
-        endGame();
-        return
-    }   
+        return;
+    }
     questionEl.textContent = (currentQuestion.question);
     gameEl.append(questionEl);
+    /*Dynamically create buttons for each of the possible answers in the myQuestions array
+    set values and style the buttons dynamically*/
     for (let j=0; j<currentQuestion.answers.length; j++) {
-        let MCbutton = document.createElement('button');
-        MCbutton.setAttribute('value', currentQuestion.answers[j]);
-        MCbutton.textContent = (currentQuestion.answers[j]);
-        gameEl.append(MCbutton);
-        MCbutton.setAttribute("style", "display: flex; flex-direction: column; justify-content: center; align-items: center;");
-        MCbutton.setAttribute("style", "width: 80%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
+        let mcButton = document.createElement('button');
+        mcButton.setAttribute('value', currentQuestion.answers[j]);
+        mcButton.textContent = (currentQuestion.answers[j]);
+        gameEl.append(mcButton);
+        mcButton.setAttribute("style", "display: flex; flex-direction: column; justify-content: center; align-items: center;");
+        mcButton.setAttribute("style", "width: 80%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
     }
     i++;
 };
-/*The timer will countdown from 45*/
 
-let secondsLeft = 45;
+/*The timer is hidden and the game screen is hidden,
+the users score is displayed*/
+function endGame() {    
+    // timerEl.style.display ='none';
+    gameEl.style.display ='none';
+    endEl.style.display = 'flex';
+    let gameOver = document.createElement('h1');
+    gameOver.textContent = "Game Over"
+    let userScore = secondsLeft;
+    let displayScore = document.createElement('h2');
+    displayScore.textContent = " Your score is " + userScore;
+    localStorage.setItem('highScores', userScore);
+    gameOver.append(displayScore);
+    endEl.append(gameOver);
+
+    /*Dynamically create and style a reset button, to reset the quiz to the welcome screen*/
+    let resetButton = document.createElement('button');
+    resetButton.setAttribute('value', 'reset');
+    resetButton.textContent = "Reset";
+    endEl.append(resetButton);
+    resetButton.setAttribute("style", "display: flex; flex-direction: column; justify-content: center; align-items: center;");
+    resetButton.setAttribute("style", "width: 80%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
+}
+
+/*The game resets back to the welcome screen*/
+function reset() {
+    endEl.style.display = "none";
+    welcomeEl.style.display = "flex";
+}
+
+/*Start the countdown from 45 seconds, display the countdown timer on the screen,
+when the timer hits 0 seconds run the endGame function*/
 timerEl.style.display ='flex';
 function countdown() {
-    let timerInterval = setInterval(function () {
+    let timerInterval = setInterval( function() {
     if(secondsLeft > 1) {
         timerEl.textContent = (secondsLeft + ' seconds remaining');
         secondsLeft--;
@@ -72,22 +120,23 @@ function countdown() {
         timerEl.textContent = (secondsLeft + ' second remaining');
         secondsLeft--;
     } else if (secondsLeft === 0) {
-        clearInterval(timerInterval);
+        clearInterval(timerInterval)
         endGame();
     } 
-    }, 1000);
+    }, 1000);    
+    
+    /*every time the user clicks on an answer, the nextQuestion function is ran
+    and the users selected answers are added to the user choice array*/
     gameEl.addEventListener("click", function choice(event) {
         let element = event.target
         if (element.matches('button')) {
             nextQuestion();
             userChoice.push(event.target.value);
         }
+
+        /*When there are no more questions to the quiz, stop the timer and run the endgame function*/
         function userScore(click) {
             k = k + click;
-            if (k > myQuestions.length - 2) {
-                clearInterval(timerInterval);
-                return;     
-            } 
         }
         userScore(1);
         if (userChoice[k] === myQuestions[k].correctAnswer) {
@@ -96,52 +145,41 @@ function countdown() {
             console.log("Incorrect");
             secondsLeft = secondsLeft - 10;
         }
-        });
-}
-/*The welcome screen is hidden and the game screen is hidden,
-the users score is displayed*/
-function endGame() {
-    welcomeEl.style.display ='none';
-    // timerEl.style.display ='none';
-    gameEl.style.display ='none';
-    endEl.style.display = 'flex';
-    let gameOver = document.createElement('h1');
-    gameOver.textContent = "Game Over"
-    let userScore = document.createElement('h2');
-    userScore.textContent = " Your score is " + secondsLeft;
-    gameOver.append(userScore);
-    endEl.append(gameOver);
-    let resetButton = document.createElement('button');
-    resetButton.setAttribute('value', 'reset');
-    resetButton.textContent = "Reset";
-    endEl.append(resetButton);
-    resetButton.setAttribute("style", "display: flex; flex-direction: column; justify-content: center; align-items: center;");
-    resetButton.setAttribute("style", "width: 80%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
-}
-/*The game resets back to the welcome screen*/
-function reset() {
-    let secondsLeft = 45;
-    let i = 0;
-    let k = -1;
-    endEl.style.display = "none";
-    gameEl.style.display = "none";
-    welcomeEl.style.display = "flex";
-}
-/*Show the leaderboard, utilizing the local storage*/
-function leaderboard() {
+        if (k > myQuestions.length - 2) {
+            clearInterval(timerInterval);
+            endGame();
+        } 
+    });
+};
 
-
-}
-/*Start the quiz when the user clicks on the startButton*/
+/*Run the startQuiz function when the user clicks on the startButton*/
 startBtnEl.addEventListener("click", startQuiz);
-/**/
-// leaderBtnEl.addEventListener("click", leaderboard);
-/**/
 
-/**/
+/*Run the reset function when the reset button is clicked*/
 endEl.addEventListener("click", function(event) {
     let element = event.target
     if (element.matches('button')) {
        reset();
     }
 })
+/*Run the leaderboard function when the leaderboard button is clicked*/
+leaderBtnEl.addEventListener("click", function leaderboard() {
+    /*Show the leaderboard, utilizing the local storage*/
+    welcomeEl.style.display = "none";
+    let score = localStorage.getItem("highscores");
+    highScores.push(score);
+    console.log(highScores);
+    let scoresEl = document.createElement('h1');
+    scoresEl.textContent = "High Scores";
+    let scoreboard = document.createElement('ol');
+    scoresEl.appendChild(scoreboard);
+    leaderboardEl.append(scoresEl);
+
+    
+    let resetButton = document.createElement('button');
+    resetButton.setAttribute('value', 'reset');
+    resetButton.textContent = "Main Menu";
+    endEl.append(resetButton);
+    resetButton.setAttribute("style", "display: flex; flex-direction: column; justify-content: center; align-items: center;");
+    resetButton.setAttribute("style", "width: 80%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
+});

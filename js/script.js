@@ -35,19 +35,15 @@ let questionEl = document.createElement('h2');
 questionEl.setAttribute('id', 'questionEl');
 
 /*set the variables to be used later*/
-let i = 0;
-let k = -1;
-let secondsLeft = 45;
+let i;
 let currentQuestion = myQuestions[i];
 
 /*create an array to hold the user selected answers*/
 let userChoice = [];
 
-/*Create an array to hold the highscores, which will be saved to local storage*/
-let highScores = [];
-
 /*Start the countdown, hide the welcome screen, and display the first question and possible answers.*/
 function startQuiz() {
+    i = 0;
     countdown();
     welcomeEl.style.display = 'none';
     endEl.style.display = 'none';
@@ -80,16 +76,29 @@ function nextQuestion() {
 
 /*The timer is hidden and the game screen is hidden,
 the users score is displayed*/
-function endGame() {    
-    // timerEl.style.display ='none';
+function endGame(timeLeft) {  
+    /*Create an array to hold the highscores, which will be saved to local storage*/
+    timerEl.style.display ='none';
     gameEl.style.display ='none';
     endEl.style.display = 'flex';
     let gameOver = document.createElement('h1');
     gameOver.textContent = "Game Over"
-    let userScore = secondsLeft;
+   
+    /**/
+    let userScore = timeLeft;  
+    
+    if (localStorage.getItem("highscores") === null) {
+        highScores = [];
+    } else {
+        highScores = JSON.parse(localStorage.getItem(highScores));
+    }
+
+    highScores.push(userScore);
+    localStorage.setItem('highScores', JSON.stringify(highScores));
+
+    /**/
     let displayScore = document.createElement('h2');
     displayScore.textContent = " Your score is " + userScore;
-    localStorage.setItem('highScores', userScore);
     gameOver.append(displayScore);
     endEl.append(gameOver);
 
@@ -104,14 +113,16 @@ function endGame() {
 
 /*The game resets back to the welcome screen*/
 function reset() {
-    endEl.style.display = "none";
-    welcomeEl.style.display = "flex";
+    document.location.reload();
 }
 
 /*Start the countdown from 45 seconds, display the countdown timer on the screen,
 when the timer hits 0 seconds run the endGame function*/
-timerEl.style.display ='flex';
 function countdown() {
+    let k = -1;
+    let secondsLeft = 45;
+    timerEl.style.display ='flex';
+    console.log("countdown");
     let timerInterval = setInterval( function() {
     if(secondsLeft > 1) {
         timerEl.textContent = (secondsLeft + ' seconds remaining');
@@ -121,7 +132,8 @@ function countdown() {
         secondsLeft--;
     } else if (secondsLeft === 0) {
         clearInterval(timerInterval)
-        endGame();
+        k = -1;
+        endGame(secondsLeft);
     } 
     }, 1000);    
     
@@ -140,14 +152,13 @@ function countdown() {
         }
         userScore(1);
         if (userChoice[k] === myQuestions[k].correctAnswer) {
-            console.log("Correct");     
+           
         } else {
-            console.log("Incorrect");
             secondsLeft = secondsLeft - 10;
         }
         if (k > myQuestions.length - 2) {
             clearInterval(timerInterval);
-            endGame();
+            endGame(secondsLeft);
         } 
     });
 };
@@ -164,22 +175,29 @@ endEl.addEventListener("click", function(event) {
 })
 /*Run the leaderboard function when the leaderboard button is clicked*/
 leaderBtnEl.addEventListener("click", function leaderboard() {
-    /*Show the leaderboard, utilizing the local storage*/
+    /*Show the leaderboard, creating an h1 and ol dynamically*/
     welcomeEl.style.display = "none";
-    let score = localStorage.getItem("highscores");
-    highScores.push(score);
-    console.log(highScores);
     let scoresEl = document.createElement('h1');
     scoresEl.textContent = "High Scores";
-    let scoreboard = document.createElement('ol');
+    let scoreboard = document.createElement('ol');  
+    let userScore = JSON.parse(localStorage.getItem('highScores'));
+
+    let scores = document.createElement('li')
+    scores.textContent = userScore;
+    scoreboard.appendChild(scores);    
     scoresEl.appendChild(scoreboard);
     leaderboardEl.append(scoresEl);
 
-    
-    let resetButton = document.createElement('button');
-    resetButton.setAttribute('value', 'reset');
-    resetButton.textContent = "Main Menu";
-    endEl.append(resetButton);
-    resetButton.setAttribute("style", "display: flex; flex-direction: column; justify-content: center; align-items: center;");
-    resetButton.setAttribute("style", "width: 80%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
+    /*Dynamically create a main menu button that will reset the quiz back to the main menu*/
+    let mainMenuButton = document.createElement('button');
+    mainMenuButton.setAttribute('value', 'mainMenu');
+    mainMenuButton.textContent = "Main Menu";
+    leaderboardEl.append(mainMenuButton);
+    mainMenuButton.setAttribute("style", "display: flex; flex-direction: column; justify-content: center; align-items: center;");
+    mainMenuButton.setAttribute("style", "width: 80%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
+
+    /*Add event listener to the mainMenuButton*/
+    mainMenuButton.addEventListener('click', function() {
+       document.location.reload();
+    });
 });

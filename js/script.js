@@ -26,6 +26,7 @@ const leaderBtnEl = document.querySelector('#leaderboardButton');
 let timerEl = document.querySelector("#timer");
 let gameEl = document.querySelector('#game');
 let leaderboardEl = document.querySelector('#leaderboard');
+let ldbBtnsEl = document.querySelector('#leaderboardbtns');
 let endEl = document.querySelector('#end');
 
 /*Dynamically create an h2 element and name it questionEl*/
@@ -77,26 +78,26 @@ function nextQuestion() {
 /*The timer is hidden and the game screen is hidden,
 the users score is displayed*/
 function endGame(timeLeft) {  
-    /*Create an array to hold the highscores, which will be saved to local storage*/
     timerEl.style.display ='none';
     gameEl.style.display ='none';
     endEl.style.display = 'flex';
     let gameOver = document.createElement('h1');
     gameOver.textContent = "Game Over"
-   
+    
     /**/
     let userScore = timeLeft;  
     
-    if (localStorage.getItem("highscores") === null) {
-        highScores = [];
+    /*Create an array to hold the highscores, which will be saved to local storage*/
+    if (localStorage.getItem('highScores') === null) {
+        scores = [];
     } else {
-        highScores = JSON.parse(localStorage.getItem(highScores));
+        scores = JSON.parse(localStorage.getItem('highScores'));
     }
+        scores.push(userScore);
+        localStorage.setItem('highScores', JSON.stringify(scores));
+    
 
-    highScores.push(userScore);
-    localStorage.setItem('highScores', JSON.stringify(highScores));
-
-    /**/
+    /*Create the endGame screen, display the score to the user*/
     let displayScore = document.createElement('h2');
     displayScore.textContent = " Your score is " + userScore;
     gameOver.append(displayScore);
@@ -122,7 +123,6 @@ function countdown() {
     let k = -1;
     let secondsLeft = 45;
     timerEl.style.display ='flex';
-    console.log("countdown");
     let timerInterval = setInterval( function() {
     if(secondsLeft > 1) {
         timerEl.textContent = (secondsLeft + ' seconds remaining');
@@ -179,25 +179,45 @@ leaderBtnEl.addEventListener("click", function leaderboard() {
     welcomeEl.style.display = "none";
     let scoresEl = document.createElement('h1');
     scoresEl.textContent = "High Scores";
-    let scoreboard = document.createElement('ol');  
+    let scoreboardEl = document.createElement('ol');
     let userScore = JSON.parse(localStorage.getItem('highScores'));
-
-    let scores = document.createElement('li')
-    scores.textContent = userScore;
-    scoreboard.appendChild(scores);    
-    scoresEl.appendChild(scoreboard);
+    
+    if (userScore === null) {
+    } else {
+        /*loop thru the sorted array of highscores and display them highest to lowest*/
+        for (let i = 0; i < userScore.length; i++) {
+        let sortedScore = userScore.sort(function(a, b){return b - a});
+        let scoreBoard = document.createElement('li')
+        scoreBoard.textContent = sortedScore[i];
+        scoreboardEl.appendChild(scoreBoard);    
+    }};
+    scoresEl.appendChild(scoreboardEl);
     leaderboardEl.append(scoresEl);
 
     /*Dynamically create a main menu button that will reset the quiz back to the main menu*/
     let mainMenuButton = document.createElement('button');
     mainMenuButton.setAttribute('value', 'mainMenu');
     mainMenuButton.textContent = "Main Menu";
-    leaderboardEl.append(mainMenuButton);
-    mainMenuButton.setAttribute("style", "display: flex; flex-direction: column; justify-content: center; align-items: center;");
-    mainMenuButton.setAttribute("style", "width: 80%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
+    ldbBtnsEl.append(mainMenuButton);
+    mainMenuButton.setAttribute("style", "display: block; flex-direction: row; justify-content: center; align-items: center;");
+    mainMenuButton.setAttribute("style", "width: 30%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
 
+    /*Dynamically create a clear high scores button*/
+    let clearScoresButton = document.createElement('button');
+    clearScoresButton.setAttribute('value', 'mainMenu');
+    clearScoresButton.textContent = "Clear Scores";
+    ldbBtnsEl.append(clearScoresButton);
+    clearScoresButton.setAttribute("style", "display: block; flex-direction: row; justify-content: center; align-items: center;");
+    clearScoresButton.setAttribute("style", "width: 30%; height: 80px; font-size: 26px; margin: 20px; background-color: var(--red); color: var(--blue); border: 5px solid var(--white); border-radius: 15px; cursor: pointer; font-weight: bold;");
+    
     /*Add event listener to the mainMenuButton*/
-    mainMenuButton.addEventListener('click', function() {
+    clearScoresButton.addEventListener('click', function() {
+       localStorage.removeItem('highScores');
        document.location.reload();
+    });
+
+     /*Add event listener to the mainMenuButton*/
+    mainMenuButton.addEventListener('click', function() {
+        document.location.reload();
     });
 });

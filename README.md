@@ -13,3 +13,4 @@ I created a javascript quiz completely from scratch, I dynamically created the q
 
 https://stuartwood2010.github.io/SW_week4_CodingQuiz/
 
+![image](https://user-images.githubusercontent.com/92122028/144691139-dc0667c8-8891-45de-bfbe-de9352dfa3be.png)
